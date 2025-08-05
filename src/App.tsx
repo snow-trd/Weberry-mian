@@ -7,6 +7,7 @@ function App() {
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
   const [runtime, setRuntime] = useState('');
+  const [hoveredElement, setHoveredElement] = useState<string | null>(null);
   
   const fullText = 'Weberry';
 
@@ -218,12 +219,28 @@ function App() {
             {projects.map((project, index) => (
               <div
                 key={project.name}
-                className="group relative backdrop-blur-2xl bg-white/30 rounded-3xl p-10 border border-white/40 shadow-2xl hover:shadow-3xl transition-all duration-700 hover:scale-110 hover:bg-white/50 hover:z-10 peer"
+                className="group relative backdrop-blur-2xl bg-white/30 rounded-3xl p-10 border border-white/40 shadow-2xl hover:shadow-3xl transition-all duration-700 hover:scale-110 hover:bg-white/50 hover:z-10 peer overflow-hidden"
                 style={{ 
                   animationDelay: `${index * 200}ms`,
                   transform: `translateY(${Math.max(0, scrollY - 800) * -0.1}px)`
                 }}
+                onMouseEnter={() => setHoveredElement(`project-${index}`)}
+                onMouseLeave={() => setHoveredElement(null)}
               >
+                {/* Mouse follower text effect */}
+                {hoveredElement === `project-${index}` && (
+                  <div
+                    className="fixed pointer-events-none z-50 text-6xl font-bold text-white/80 transition-all duration-300 ease-out"
+                    style={{
+                      left: mousePosition.x - 100,
+                      top: mousePosition.y - 30,
+                      textShadow: '0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(59,130,246,0.3)',
+                      transform: 'scale(1.2)',
+                    }}
+                  >
+                    {project.name.split(' ')[0]}
+                  </div>
+                )}
                 <div className={`w-20 h-20 rounded-3xl bg-gradient-to-br ${project.gradient} flex items-center justify-center text-white mb-8 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg`}>
                   {project.icon}
                 </div>
@@ -264,12 +281,28 @@ function App() {
                 href={item.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block backdrop-blur-2xl bg-white/30 rounded-3xl p-8 border border-white/40 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:bg-white/50"
+                className="group block backdrop-blur-2xl bg-white/30 rounded-3xl p-8 border border-white/40 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:bg-white/50 overflow-hidden"
                 style={{ 
                   animationDelay: `${index * 100}ms`,
                   transform: `translateY(${Math.max(0, scrollY - 1400) * -0.05}px)`
                 }}
+                onMouseEnter={() => setHoveredElement(`rec-${index}`)}
+                onMouseLeave={() => setHoveredElement(null)}
               >
+                {/* Mouse follower text effect for recommendations */}
+                {hoveredElement === `rec-${index}` && (
+                  <div
+                    className="fixed pointer-events-none z-50 text-4xl font-bold text-white/80 transition-all duration-300 ease-out"
+                    style={{
+                      left: mousePosition.x - 80,
+                      top: mousePosition.y - 20,
+                      textShadow: '0 0 15px rgba(255,255,255,0.5), 0 0 30px rgba(59,130,246,0.3)',
+                      transform: 'scale(1.1)',
+                    }}
+                  >
+                    {item.name}
+                  </div>
+                )}
                 <div className={`${item.color} mb-6 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500`}>
                   {item.icon}
                 </div>
