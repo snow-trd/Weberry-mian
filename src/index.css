@@ -10,4 +10,14 @@
   a, button {
     cursor: none !important;
   }
+  
+  /* 项目卡片悬停效果 */
+  .group:hover ~ .group {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  
+  .group:not(:hover) {
+    transition: all 0.7s ease;
+  }
 }

@@ -218,7 +218,7 @@ function App() {
             {projects.map((project, index) => (
               <div
                 key={project.name}
-                className="group relative backdrop-blur-2xl bg-white/30 rounded-3xl p-10 border border-white/40 shadow-2xl hover:shadow-3xl transition-all duration-700 hover:scale-105 hover:bg-white/50"
+                className="group relative backdrop-blur-2xl bg-white/30 rounded-3xl p-10 border border-white/40 shadow-2xl hover:shadow-3xl transition-all duration-700 hover:scale-110 hover:bg-white/50 hover:z-10 peer"
                 style={{ 
                   animationDelay: `${index * 200}ms`,
                   transform: `translateY(${Math.max(0, scrollY - 800) * -0.1}px)`
