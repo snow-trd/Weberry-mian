@@ -235,7 +235,7 @@ function App() {
                       left: mousePosition.x - 100,
                       top: mousePosition.y - 30,
                       textShadow: '0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(59,130,246,0.3)',
-                      transform: 'scale(1.2)',
+                      transform: 'scale(1.5)',
                     }}
                   >
                     {project.name.split(' ')[0]}
@@ -297,7 +297,7 @@ function App() {
                       left: mousePosition.x - 80,
                       top: mousePosition.y - 20,
                       textShadow: '0 0 15px rgba(255,255,255,0.5), 0 0 30px rgba(59,130,246,0.3)',
-                      transform: 'scale(1.1)',
+                      transform: 'scale(1.3)',
                     }}
                   >
                     {item.name}
