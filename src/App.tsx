@@ -7,7 +7,6 @@ function App() {
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
   const [runtime, setRuntime] = useState('');
-  const [statsLoaded, setStatsLoaded] = useState(false);
   
   const fullText = 'Weberry';
 
@@ -55,26 +54,6 @@ function App() {
     
     return () => clearInterval(interval);
   }, []);
-
-  // 检查统计数据是否加载
-  useEffect(() => {
-    const checkStats = () => {
-      const pvElement = document.getElementById('busuanzi_site_pv');
-      if (pvElement && pvElement.textContent && pvElement.textContent !== '加载中...' && !pvElement.textContent.includes('审核')) {
-        setStatsLoaded(true);
-      } else {
-        // 如果显示审核中或加载失败，3秒后显示默认数据
-        setTimeout(() => {
-          if (!statsLoaded) {
-            setStatsLoaded(false);
-          }
-        }, 3000);
-      }
-    };
-
-    const interval = setInterval(checkStats, 1000);
-    return () => clearInterval(interval);
-  }, [statsLoaded]);
 
   useEffect(() => {
     let currentIndex = 0;
@@ -319,12 +298,7 @@ function App() {
                     {stat.icon}
                   </div>
                   <div className="text-3xl font-bold text-slate-800 mb-2">
-                    <span id={stat.id}>
-                      {stat.id === 'busuanzi_site_pv' && '1,234'}
-                      {stat.id === 'busuanzi_site_uv' && '567'}
-                      {stat.id === 'busuanzi_today_site_pv' && '89'}
-                      {stat.id === 'busuanzi_today_site_uv' && '45'}
-                    </span>
+                    <span id={stat.id}>加载中...</span>
                   </div>
                   <div className="text-slate-600 font-medium">{stat.label}</div>
                 </div>
@@ -337,13 +311,13 @@ function App() {
                 <div className="backdrop-blur-sm bg-white/20 rounded-2xl p-6 border border-white/30">
                   <div className="text-lg text-slate-600 mb-1">本页阅读量</div>
                   <div className="text-2xl font-bold text-slate-800">
-                    <span id="busuanzi_page_pv">123</span> 次
+                    <span id="busuanzi_page_pv">加载中...</span> 次
                   </div>
                 </div>
                 <div className="backdrop-blur-sm bg-white/20 rounded-2xl p-6 border border-white/30">
                   <div className="text-lg text-slate-600 mb-1">本页访客数</div>
                   <div className="text-2xl font-bold text-slate-800">
-                    <span id="busuanzi_page_uv">67</span> 人
+                    <span id="busuanzi_page_uv">加载中...</span> 人
                   </div>
                 </div>
               </div>
