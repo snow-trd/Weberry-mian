@@ -62,7 +62,7 @@ const CooperationPage: React.FC<CooperationPageProps> = ({ mousePosition, scroll
               </div>
               <h3 className="text-2xl font-bold text-slate-800 mb-4">洛谷团队</h3>
               <p className="text-slate-600 mb-6 leading-relaxed">
-                我们在洛谷平台建立了专业的编程团队，欢迎所有热爱编程的朋友加入我们！
+                我们在洛谷平台建立了（专业）的编程团队，欢迎所有热爱编程的朋友加入我们！
               </p>
               <a
                 href="https://www.luogu.com.cn/team/110445"
@@ -85,7 +85,7 @@ const CooperationPage: React.FC<CooperationPageProps> = ({ mousePosition, scroll
               团队特色
             </h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              我们提供全方位的学习和成长环境
+              我们提供（全方位）的学习和成长环境
             </p>
           </div>
           
@@ -147,7 +147,7 @@ const CooperationPage: React.FC<CooperationPageProps> = ({ mousePosition, scroll
               </div>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-6">
-              期待你的加入
+              你觉得我们期不期待您的加入？
             </h2>
             <p className="text-xl text-slate-600 mb-8 leading-relaxed">
               无论你是编程新手还是资深开发者，我们都欢迎你的到来。<br />
@@ -163,7 +163,7 @@ const CooperationPage: React.FC<CooperationPageProps> = ({ mousePosition, scroll
                 立即加入 <ExternalLink className="w-5 h-5" />
               </a>
               <button className="inline-flex items-center gap-3 backdrop-blur-sm bg-white/20 text-slate-700 px-8 py-4 rounded-2xl font-semibold text-lg hover:bg-white/30 transition-all duration-300 border border-white/30">
-                了解更多 <Star className="w-5 h-5" />
+                啥也没有 <Star className="w-5 h-5" />
               </button>
             </div>
           </div>
