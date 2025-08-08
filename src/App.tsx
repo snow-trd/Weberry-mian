@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ExternalLink, Code, Music, Timer, Gamepad2, Palette, Globe, Zap, Users, Eye, Calendar, Clock, ChevronDown } from 'lucide-react';
+import { ExternalLink, Code, Music, Timer, Gamepad2, Palette, Globe, Zap, Users, Eye, Calendar, Clock, ChevronDown, Home, Handshake, Info } from 'lucide-react';
 
 function App() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -8,8 +8,16 @@ function App() {
   const [isTyping, setIsTyping] = useState(true);
   const [runtime, setRuntime] = useState('');
   const [hoveredElement, setHoveredElement] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState('home');
+  const [activeTab, setActiveTab] = useState(0);
   
   const fullText = 'Weberry';
+
+  const navItems = [
+    { id: 'home', label: '首页', icon: <Home className="w-5 h-5" /> },
+    { id: 'cooperation', label: '合作', icon: <Handshake className="w-5 h-5" /> },
+    { id: 'about', label: '关于', icon: <Info className="w-5 h-5" /> }
+  ];
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -70,6 +78,7 @@ function App() {
 
     return () => clearInterval(typingInterval);
   }, []);
+
   const projects = [
     {
       name: 'XYCRAFT 2025 (Pre5 1.04922)',
@@ -139,38 +148,13 @@ function App() {
     });
   };
 
-  return (
-    <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden cursor-none">
-      {/* Custom cursor */}
-      {/* White frosted glass cursor with shadow */}
-      <div 
-        className="fixed w-8 h-8 backdrop-blur-md bg-white/30 rounded-full pointer-events-none z-50 border border-white/50 shadow-2xl transition-transform duration-150 ease-out"
-        style={{
-          left: mousePosition.x - 16,
-          top: mousePosition.y - 16,
-          boxShadow: '0 8px 32px rgba(255, 255, 255, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4)',
-        }}
-      />
-      <div 
-        className="fixed w-2 h-2 bg-white/80 rounded-full pointer-events-none z-50 shadow-sm"
-        style={{
-          left: mousePosition.x - 4,
-          top: mousePosition.y - 4,
-        }}
-      />
-      
-      {/* Animated background elements */}
-      <div 
-        className="fixed inset-0 pointer-events-none z-0"
-        style={{
-          background: `radial-gradient(800px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(59, 130, 246, 0.1), transparent 40%)`
-        }}
-      />
-      
-      {/* Floating elements */}
-      <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-blue-200 to-indigo-300 rounded-full opacity-20 blur-3xl animate-pulse" />
-      <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-teal-200 to-cyan-300 rounded-full opacity-20 blur-3xl animate-pulse delay-1000" />
+  const handleTabClick = (index: number, pageId: string) => {
+    setActiveTab(index);
+    setCurrentPage(pageId);
+  };
 
+  const renderHomePage = () => (
+    <>
       {/* Hero Section - Full Screen */}
       <section className="min-h-screen flex items-center justify-center relative z-10">
         <div className="text-center px-6">
@@ -188,7 +172,6 @@ function App() {
             </h2>
             <p className="text-2xl md:text-3xl lg:text-4xl text-slate-600 max-w-5xl mx-auto leading-relaxed mb-20">
               工作室？（就一个人...<br />
-        
             </p>
             
             {/* Scroll indicator */}
@@ -358,6 +341,299 @@ function App() {
           </div>
         </div>
       </section>
+    </>
+  );
+
+  const renderCooperationPage = () => (
+    <section className="min-h-screen py-32 px-6 relative z-10">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-20">
+          <h1 className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent mb-8">
+            合作伙伴
+          </h1>
+          <p className="text-2xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            与我们一起创造更美好的数字世界
+          </p>
+        </div>
+
+        <div className="backdrop-blur-2xl bg-white/30 rounded-[3rem] p-12 md:p-16 border border-white/40 shadow-2xl">
+          <div className="text-center mb-12">
+            <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-3xl flex items-center justify-center text-white mb-8 mx-auto shadow-2xl">
+              <Handshake className="w-12 h-12" />
+            </div>
+            <h2 className="text-4xl font-bold text-slate-800 mb-6">洛谷团队</h2>
+            <p className="text-xl text-slate-600 mb-8 leading-relaxed">
+              我们在洛谷平台上建立了专业的开发团队，致力于算法学习、编程竞赛和技术交流。
+              欢迎有志于编程和算法的朋友加入我们！
+            </p>
+            
+            <div className="grid md:grid-cols-2 gap-8 mb-12">
+              <div className="backdrop-blur-sm bg-white/20 rounded-2xl p-8 border border-white/30">
+                <h3 className="text-2xl font-semibold text-slate-800 mb-4">团队特色</h3>
+                <ul className="text-slate-600 space-y-3 text-left">
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    算法竞赛指导与训练
+                  </li>
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    编程技能提升交流
+                  </li>
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    项目开发合作机会
+                  </li>
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    技术分享与学习
+                  </li>
+                </ul>
+              </div>
+              
+              <div className="backdrop-blur-sm bg-white/20 rounded-2xl p-8 border border-white/30">
+                <h3 className="text-2xl font-semibold text-slate-800 mb-4">加入条件</h3>
+                <ul className="text-slate-600 space-y-3 text-left">
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                    热爱编程与算法
+                  </li>
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                    积极参与团队活动
+                  </li>
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                    乐于分享与学习
+                  </li>
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                    具备基础编程能力
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <a
+              href="https://www.luogu.com.cn/team/110445"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-12 py-6 rounded-2xl font-semibold text-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-2xl hover:shadow-3xl hover:scale-105"
+            >
+              <Handshake className="w-6 h-6" />
+              访问洛谷团队
+              <ExternalLink className="w-6 h-6" />
+            </a>
+          </div>
+        </div>
+
+        <div className="mt-16 text-center">
+          <div className="backdrop-blur-sm bg-white/20 rounded-2xl p-8 border border-white/30 max-w-2xl mx-auto">
+            <h3 className="text-2xl font-semibold text-slate-800 mb-4">商务合作</h3>
+            <p className="text-slate-600 leading-relaxed">
+              如果您有项目合作、技术咨询或其他商务需求，欢迎通过洛谷团队页面联系我们。
+              我们期待与您携手创造更多精彩的项目！
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+
+  const renderAboutPage = () => (
+    <section className="min-h-screen py-32 px-6 relative z-10">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-20">
+          <h1 className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent mb-8">
+            关于我们
+          </h1>
+          <p className="text-2xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            了解 Weberry Studio 的理念与愿景
+          </p>
+        </div>
+
+        <div className="space-y-8">
+          {/* MIT License Section */}
+          <div className="backdrop-blur-2xl bg-white/30 rounded-[3rem] p-12 md:p-16 border border-white/40 shadow-2xl">
+            <div className="text-center mb-12">
+              <div className="w-24 h-24 bg-gradient-to-br from-green-500 to-teal-600 rounded-3xl flex items-center justify-center text-white mb-8 mx-auto shadow-2xl">
+                <Code className="w-12 h-12" />
+              </div>
+              <h2 className="text-4xl font-bold text-slate-800 mb-6">开源许可</h2>
+              <p className="text-xl text-slate-600 mb-8 leading-relaxed">
+                我们的项目采用 MIT 许可证，致力于推动开源社区的发展
+              </p>
+            </div>
+
+            <div className="backdrop-blur-sm bg-white/20 rounded-2xl p-8 border border-white/30 mb-8">
+              <h3 className="text-2xl font-semibold text-slate-800 mb-6 text-center">MIT License</h3>
+              <div className="text-slate-700 leading-relaxed space-y-4 font-mono text-sm bg-slate-50/50 rounded-xl p-6">
+                <p>Copyright (c) 2025 Weberry Studio</p>
+                <p>
+                  Permission is hereby granted, free of charge, to any person obtaining a copy
+                  of this software and associated documentation files (the "Software"), to deal
+                  in the Software without restriction, including without limitation the rights
+                  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+                  copies of the Software, and to permit persons to whom the Software is
+                  furnished to do so, subject to the following conditions:
+                </p>
+                <p>
+                  The above copyright notice and this permission notice shall be included in all
+                  copies or substantial portions of the Software.
+                </p>
+                <p>
+                  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+                  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+                  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+                  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+                  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+                  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+                  SOFTWARE.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="text-center backdrop-blur-sm bg-white/20 rounded-2xl p-6 border border-white/30">
+                <h4 className="text-lg font-semibold text-slate-800 mb-3">自由使用</h4>
+                <p className="text-slate-600 text-sm">可以自由使用、修改和分发我们的开源项目</p>
+              </div>
+              <div className="text-center backdrop-blur-sm bg-white/20 rounded-2xl p-6 border border-white/30">
+                <h4 className="text-lg font-semibold text-slate-800 mb-3">商业友好</h4>
+                <p className="text-slate-600 text-sm">支持商业用途，无需支付额外费用</p>
+              </div>
+              <div className="text-center backdrop-blur-sm bg-white/20 rounded-2xl p-6 border border-white/30">
+                <h4 className="text-lg font-semibold text-slate-800 mb-3">社区驱动</h4>
+                <p className="text-slate-600 text-sm">欢迎社区贡献，共同完善项目</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Studio Info Section */}
+          <div className="backdrop-blur-2xl bg-white/30 rounded-[3rem] p-12 md:p-16 border border-white/40 shadow-2xl">
+            <div className="text-center mb-12">
+              <div className="w-24 h-24 bg-gradient-to-br from-purple-500 to-pink-600 rounded-3xl flex items-center justify-center text-white mb-8 mx-auto shadow-2xl">
+                <Info className="w-12 h-12" />
+              </div>
+              <h2 className="text-4xl font-bold text-slate-800 mb-6">工作室简介</h2>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="backdrop-blur-sm bg-white/20 rounded-2xl p-8 border border-white/30">
+                <h3 className="text-2xl font-semibold text-slate-800 mb-4">我们的使命</h3>
+                <p className="text-slate-600 leading-relaxed">
+                  Weberry Studio 致力于创造有趣、实用的数字产品，通过技术创新为用户带来更好的体验。
+                  我们相信每一个创意都值得被精心雕琢，每一行代码都承载着对美好的追求。
+                </p>
+              </div>
+              
+              <div className="backdrop-blur-sm bg-white/20 rounded-2xl p-8 border border-white/30">
+                <h3 className="text-2xl font-semibold text-slate-800 mb-4">技术栈</h3>
+                <div className="flex flex-wrap gap-2">
+                  {['React', 'TypeScript', 'Tailwind CSS', 'WebGL', 'Node.js', 'HTML5', 'CSS3', 'JavaScript'].map((tech) => (
+                    <span key={tech} className="px-3 py-1 bg-blue-100/50 text-blue-800 rounded-full text-sm font-medium">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 text-center">
+              <div className="backdrop-blur-sm bg-white/20 rounded-2xl p-8 border border-white/30">
+                <h3 className="text-2xl font-semibold text-slate-800 mb-4">联系我们</h3>
+                <p className="text-slate-600 leading-relaxed">
+                  虽然目前工作室只有一个人，但我们对每个项目都倾注了全部的热情与专业。
+                  如果您对我们的项目感兴趣，或者有任何建议和想法，欢迎通过洛谷团队页面与我们交流！
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+
+  return (
+    <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden cursor-none">
+      {/* Custom cursor */}
+      <div 
+        className="fixed w-8 h-8 backdrop-blur-md bg-white/30 rounded-full pointer-events-none z-50 border border-white/50 shadow-2xl transition-transform duration-150 ease-out"
+        style={{
+          left: mousePosition.x - 16,
+          top: mousePosition.y - 16,
+          boxShadow: '0 8px 32px rgba(255, 255, 255, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4)',
+        }}
+      />
+      <div 
+        className="fixed w-2 h-2 bg-white/80 rounded-full pointer-events-none z-50 shadow-sm"
+        style={{
+          left: mousePosition.x - 4,
+          top: mousePosition.y - 4,
+        }}
+      />
+      
+      {/* Animated background elements */}
+      <div 
+        className="fixed inset-0 pointer-events-none z-0"
+        style={{
+          background: `radial-gradient(800px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(59, 130, 246, 0.1), transparent 40%)`
+        }}
+      />
+      
+      {/* Floating elements */}
+      <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-blue-200 to-indigo-300 rounded-full opacity-20 blur-3xl animate-pulse" />
+      <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-teal-200 to-cyan-300 rounded-full opacity-20 blur-3xl animate-pulse delay-1000" />
+
+      {/* Navigation Bar */}
+      <nav className="fixed top-8 left-1/2 transform -translate-x-1/2 z-40">
+        <div className="relative backdrop-blur-2xl bg-white/20 rounded-2xl border border-white/30 shadow-2xl overflow-hidden">
+          {/* Glass reflection effect */}
+          <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent opacity-50 pointer-events-none" />
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/60 to-transparent" />
+          
+          <div className="relative flex items-center p-2">
+            {navItems.map((item, index) => (
+              <button
+                key={item.id}
+                onClick={() => handleTabClick(index, item.id)}
+                className={`relative flex items-center gap-3 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+                  activeTab === index
+                    ? 'text-white shadow-lg'
+                    : 'text-slate-700 hover:text-slate-900 hover:bg-white/20'
+                }`}
+              >
+                {item.icon}
+                <span>{item.label}</span>
+                
+                {/* Active tab background with glass effect */}
+                {activeTab === index && (
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/80 to-purple-500/80 rounded-xl backdrop-blur-sm border border-white/20 shadow-xl">
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-transparent rounded-xl" />
+                    <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-white/80 to-transparent" />
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+          
+          {/* Animated underline */}
+          <div 
+            className="absolute bottom-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-500 ease-out shadow-lg"
+            style={{
+              left: `${(activeTab * 100) / navItems.length + 8}%`,
+              width: `${100 / navItems.length - 16}%`,
+              boxShadow: '0 0 20px rgba(59, 130, 246, 0.5), 0 0 40px rgba(147, 51, 234, 0.3)'
+            }}
+          />
+        </div>
+      </nav>
+
+      {/* Page Content */}
+      <main className="relative z-10">
+        {currentPage === 'home' && renderHomePage()}
+        {currentPage === 'cooperation' && renderCooperationPage()}
+        {currentPage === 'about' && renderAboutPage()}
+      </main>
 
       {/* Footer */}
       <footer className="py-20 px-6 text-center relative z-10">
