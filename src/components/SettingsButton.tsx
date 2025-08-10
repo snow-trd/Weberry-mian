@@ -201,10 +201,10 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({ mousePosition }) => {
         <div className={`fixed inset-0 z-[9998] flex items-center justify-center p-6 ${modalAnimation}`}>
           {/* Backdrop with enhanced blur */}
           <div 
-            className="absolute inset-0 backdrop-blur-2xl transition-all duration-700 ease-out"
+            className="absolute inset-0 backdrop-blur-sm transition-all duration-700 ease-out"
             style={{
-              background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(59, 130, 246, ${0.08 * backdropOpacity}) 0%, rgba(0, 0, 0, ${0.15 * backdropOpacity}) 40%, rgba(0, 0, 0, ${0.25 * backdropOpacity}) 100%)`,
-              backdropFilter: `blur(${20 + backdropOpacity * 20}px) saturate(${100 + backdropOpacity * 50}%)`,
+              background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(59, 130, 246, ${0.05 * backdropOpacity}) 0%, rgba(0, 0, 0, ${0.08 * backdropOpacity}) 40%, rgba(0, 0, 0, ${0.12 * backdropOpacity}) 100%)`,
+              backdropFilter: `blur(${8 + backdropOpacity * 8}px) saturate(${100 + backdropOpacity * 30}%)`,
               opacity: backdropOpacity,
             }}
             onClick={closeModal}
@@ -231,13 +231,13 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({ mousePosition }) => {
           >
             <div className={`backdrop-blur-3xl bg-white/5 ${isMaximized ? 'rounded-none' : 'rounded-3xl'} border border-white/10 shadow-2xl overflow-hidden transition-all duration-300`}
                  style={{
-                   backdropFilter: 'blur(40px) saturate(180%)',
+                   backdropFilter: 'blur(60px) saturate(200%) brightness(110%)',
                    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25)'
                  }}>
               
               {/* Enhanced glassmorphism effects */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/15 via-white/8 to-white/3 pointer-events-none" />
-              <div className="absolute inset-0 bg-gradient-to-tl from-blue-500/8 via-transparent to-purple-500/8 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/12 to-white/5 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-tl from-blue-500/10 via-transparent to-purple-500/10 pointer-events-none" />
               <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
               
               {/* macOS Style Header */}
@@ -245,7 +245,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({ mousePosition }) => {
                 className={`relative px-6 py-4 border-b border-white/15 bg-gradient-to-r from-white/12 to-white/8 ${!isMaximized ? 'cursor-move' : ''}`}
                 onMouseDown={handleMouseDown}
                 style={{
-                  backdropFilter: 'blur(30px) saturate(150%)',
+                  backdropFilter: 'blur(40px) saturate(160%) brightness(105%)',
                 }}
               >
                 {/* Traffic Light Buttons */}
@@ -311,7 +311,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({ mousePosition }) => {
                             ? 'bg-blue-500/20 border-blue-400/60 shadow-lg shadow-blue-500/20'
                             : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
                         }`}
-                        style={{ backdropFilter: 'blur(10px)' }}
+                        style={{ backdropFilter: 'blur(20px) saturate(150%)' }}
                       >
                         <div className="flex items-center space-x-3">
                           <span className="text-2xl">{lang.flag}</span>
@@ -349,7 +349,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({ mousePosition }) => {
                             ? 'bg-purple-500/20 border-purple-400/60 shadow-lg shadow-purple-500/20'
                             : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
                         }`}
-                        style={{ backdropFilter: 'blur(10px)' }}
+                        style={{ backdropFilter: 'blur(20px) saturate(150%)' }}
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-4">
@@ -385,7 +385,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({ mousePosition }) => {
                   <div className="space-y-4">
                     {/* Animation Toggle */}
                     <div className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 backdrop-blur-sm"
-                         style={{ backdropFilter: 'blur(10px)' }}>
+                         style={{ backdropFilter: 'blur(25px) saturate(140%)' }}>
                       <div className="flex items-center space-x-4">
                         <div className="p-2 rounded-lg bg-gradient-to-br from-blue-400 to-cyan-500 text-white shadow-lg">
                           <Zap className="w-5 h-5" />
@@ -409,7 +409,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({ mousePosition }) => {
 
                     {/* Sound Toggle */}
                     <div className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 backdrop-blur-sm"
-                         style={{ backdropFilter: 'blur(10px)' }}>
+                         style={{ backdropFilter: 'blur(25px) saturate(140%)' }}>
                       <div className="flex items-center space-x-4">
                         <div className="p-2 rounded-lg bg-gradient-to-br from-green-400 to-emerald-500 text-white shadow-lg">
                           {soundEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
