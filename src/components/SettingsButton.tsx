@@ -14,6 +14,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({ mousePosition }) => {
   const [modalAnimation, setModalAnimation] = useState('');
   const [isMaximized, setIsMaximized] = useState(false);
   const [windowPosition, setWindowPosition] = useState({ x: 0, y: 0 });
+  const [backdropOpacity, setBackdropOpacity] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const modalRef = useRef<HTMLDivElement>(null);
@@ -53,8 +54,13 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({ mousePosition }) => {
   const openModal = () => {
     setModalAnimation('animate-in');
     setIsModalOpen(true);
+    setBackdropOpacity(0);
     setWindowPosition({ x: 0, y: 0 });
     setIsMaximized(false);
+    
+    // 渐进式背景遮罩
+    setTimeout(() => setBackdropOpacity(1), 50);
+    
     if (soundEnabled) {
       console.log('播放打开音效');
     }
@@ -62,6 +68,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({ mousePosition }) => {
 
   const closeModal = () => {
     setModalAnimation('animate-out');
+    setBackdropOpacity(0);
     setTimeout(() => {
       setIsModalOpen(false);
       setModalAnimation('');
@@ -73,6 +80,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({ mousePosition }) => {
 
   const minimizeModal = () => {
     setModalAnimation('animate-minimize');
+    setBackdropOpacity(0);
     setTimeout(() => {
       setIsModalOpen(false);
       setModalAnimation('');
@@ -111,6 +119,32 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({ mousePosition }) => {
   const handleMouseUp = () => {
     setIsDragging(false);
   };
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isModalOpen || isMaximized) return;
+      
+      // 窗口跟随鼠标，但有一定的偏移和限制
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      const offsetX = (e.clientX - centerX) * 0.1; // 减少跟随强度
+      const offsetY = (e.clientY - centerY) * 0.1;
+      
+      // 限制移动范围
+      const maxOffset = 100;
+      const clampedX = Math.max(-maxOffset, Math.min(maxOffset, offsetX));
+      const clampedY = Math.max(-maxOffset, Math.min(maxOffset, offsetY));
+      
+      if (!isDragging) {
+        setWindowPosition({ x: clampedX, y: clampedY });
+      }
+    };
+
+    if (isModalOpen) {
+      window.addEventListener('mousemove', handleMouseMove);
+      return () => window.removeEventListener('mousemove', handleMouseMove);
+    }
+  }, [isModalOpen, isMaximized, isDragging]);
 
   useEffect(() => {
     if (isDragging) {
@@ -167,10 +201,11 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({ mousePosition }) => {
         <div className={`fixed inset-0 z-[9998] flex items-center justify-center p-6 ${modalAnimation}`}>
           {/* Backdrop with enhanced blur */}
           <div 
-            className="absolute inset-0 backdrop-blur-3xl transition-all duration-500"
+            className="absolute inset-0 backdrop-blur-2xl transition-all duration-700 ease-out"
             style={{
-              background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(59, 130, 246, 0.15) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.6) 100%)`,
-              backdropFilter: 'blur(40px) saturate(180%)',
+              background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(59, 130, 246, ${0.08 * backdropOpacity}) 0%, rgba(0, 0, 0, ${0.15 * backdropOpacity}) 40%, rgba(0, 0, 0, ${0.25 * backdropOpacity}) 100%)`,
+              backdropFilter: `blur(${20 + backdropOpacity * 20}px) saturate(${100 + backdropOpacity * 50}%)`,
+              opacity: backdropOpacity,
             }}
             onClick={closeModal}
           />
@@ -185,31 +220,32 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({ mousePosition }) => {
               'scale-100 opacity-100 translate-y-0'
             } ${isMaximized ? 'w-full h-full max-w-none' : 'w-full max-w-4xl max-h-[90vh]'}`}
             style={{
-              transform: `translate(${windowPosition.x}px, ${windowPosition.y}px) ${
+              transform: `translate(${windowPosition.x}px, ${windowPosition.y}px) scale(${
                 modalAnimation === 'animate-in' ? 'scale(1)' : 
                 modalAnimation === 'animate-out' ? 'scale(0.95) translateY(16px)' : 
                 modalAnimation === 'animate-minimize' ? 'scale(0.75) translateY(32px)' :
-                'scale(1)'
-              }`,
+                '1'
+              })`,
+              transition: isDragging ? 'none' : 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
             }}
           >
             <div className={`backdrop-blur-3xl bg-white/5 ${isMaximized ? 'rounded-none' : 'rounded-3xl'} border border-white/10 shadow-2xl overflow-hidden transition-all duration-300`}
                  style={{
-                   backdropFilter: 'blur(60px) saturate(200%)',
-                   boxShadow: '0 32px 64px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                   backdropFilter: 'blur(40px) saturate(180%)',
+                   boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25)'
                  }}>
               
               {/* Enhanced glassmorphism effects */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent pointer-events-none" />
-              <div className="absolute inset-0 bg-gradient-to-tl from-blue-500/5 via-transparent to-purple-500/5 pointer-events-none" />
-              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/15 via-white/8 to-white/3 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-tl from-blue-500/8 via-transparent to-purple-500/8 pointer-events-none" />
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
               
               {/* macOS Style Header */}
               <div 
-                className={`relative px-6 py-4 border-b border-white/10 bg-gradient-to-r from-white/8 to-white/4 ${!isMaximized ? 'cursor-move' : ''}`}
+                className={`relative px-6 py-4 border-b border-white/15 bg-gradient-to-r from-white/12 to-white/8 ${!isMaximized ? 'cursor-move' : ''}`}
                 onMouseDown={handleMouseDown}
                 style={{
-                  backdropFilter: 'blur(20px)',
+                  backdropFilter: 'blur(30px) saturate(150%)',
                 }}
               >
                 {/* Traffic Light Buttons */}
